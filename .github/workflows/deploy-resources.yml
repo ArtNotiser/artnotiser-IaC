@@ -1,0 +1,38 @@
+# This is a basic workflow to help you get started with Actions
+
+name: CI
+
+# Controls when the workflow will run
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+  workflow_dispatch:
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
+      - uses: actions/checkout@v3
+
+      - name: bicep-build-output
+        uses: Azure/bicep-build-action@v1.0.1
+        with:
+          bicepFilePath: ./main.bicep
+          outputFilePath: ./azuredeploy.json
+
+      - name: Deploy Azure Resource Manager (ARM) Template
+        uses: Azure/arm-deploy@v1.0.9
+        with:
+          # Provide the scope of the deployment. Valid values are: 'resourcegroup', 'managementgroup', 'subscription'
+          scope: resourcegroup
+          # Provide the name of a resource group, only required for resource Group deployments.
+          resourceGroupName: ${{env.ARTNOTISER_RESOURCEGROUP}}
+          # Specify the path or URL to the Azure Resource Manager template.
+          template: ./azuredeploy.json
+          deploymentMode: Incremental
+          # Supply deployment parameter values.
+          parameters: artportalenKey=${{secrets.ARTNOTISER_ARTPORTALENKEY}} mailerSendToken=${{secrets.ARTNOTISER_MAILERSENDTOKEN}} environmentPrefix=${{env.ARTNOTISER_ENVIRONMENTPREFIX}} appNameSuffix=${{env.ARTNOTISER_APPNAMESUFFIX}}
