@@ -25,15 +25,20 @@ jobs:
           bicepFilePath: ./main.bicep
           outputFilePath: ./azuredeploy.json
 
+      - name: Login to Azure
+        uses: azure/login@v1
+        with:
+          creds: ${{ secrets.AZURE_ARTNOTISER }}
+
       - name: Deploy Azure Resource Manager (ARM) Template
         uses: Azure/arm-deploy@v1.0.9
         with:
           # Provide the scope of the deployment. Valid values are: 'resourcegroup', 'managementgroup', 'subscription'
           scope: resourcegroup
           # Provide the name of a resource group, only required for resource Group deployments.
-          resourceGroupName: ${{env.ARTNOTISER_RESOURCEGROUP}}
+          resourceGroupName: artnotiser-dev
           # Specify the path or URL to the Azure Resource Manager template.
           template: ./azuredeploy.json
           deploymentMode: Incremental
           # Supply deployment parameter values.
-          parameters: artportalenKey=${{secrets.ARTNOTISER_ARTPORTALENKEY}} mailerSendToken=${{secrets.ARTNOTISER_MAILERSENDTOKEN}} environmentPrefix=${{env.ARTNOTISER_ENVIRONMENTPREFIX}} appNameSuffix=${{env.ARTNOTISER_APPNAMESUFFIX}}
+          parameters: artportalenKey=${{ secrets.ARTNOTISER_ARTPORTALENKEY }} mailerSendToken=${{ secrets.ARTNOTISER_MAILERSENDTOKEN }} environmentPrefix=${{ env.ARTNOTISER_ENVIRONMENTPREFIX }} appNameSuffix=${{ env.ARTNOTISER_APPNAMESUFFIX }}
