@@ -1,5 +1,9 @@
+param  environmentPrefix string = 'Dev'
+param  appNameSuffix string = 'dev'
+param artportalenKey string = ''
+param mailerSendToken string = ''
+
 var location = resourceGroup().location
-var appNameSuffix = 'dev'
 var functionAppName = 'fa-artnotiser-${appNameSuffix}'
 var appServicePlanName = 'asp-artnotiser-${appNameSuffix}'
 var appInsightsName = 'ai-artnotiser-${appNameSuffix}'
@@ -8,9 +12,6 @@ var businessStorageAccountName = 'saartnotiser${appNameSuffix}'
 var keyVaultName = 'kv-artnotiser-${appNameSuffix}'
 var serviceBusName = 'sb-artnotiser-${appNameSuffix}'
 
-var environmentPrefix = 'Dev: '
-var artportalenKey = ''
-var mailerSendToken = ''
 
 resource functionStorageAccount 'Microsoft.Storage/storageAccounts@2021-04-01' = {
   name: functionStorageAccountName
