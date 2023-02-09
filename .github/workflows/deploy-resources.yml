@@ -25,6 +25,11 @@ jobs:
           bicepFilePath: ./main.bicep
           outputFilePath: ./azuredeploy.json
 
+      - name: Login to Azure
+        uses: azure/login@v1
+        with:
+          creds: ${{ secrets.AZURE_ARTNOTISER }}
+
       - name: Deploy Azure Resource Manager (ARM) Template
         uses: Azure/arm-deploy@v1.0.9
         with:
