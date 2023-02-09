@@ -41,4 +41,4 @@ jobs:
           template: ./azuredeploy.json
           deploymentMode: Incremental
           # Supply deployment parameter values.
-          parameters: artportalenKey=${{ secrets.ARTNOTISER_ARTPORTALENKEY }} mailerSendToken=${{ secrets.ARTNOTISER_MAILERSENDTOKEN }} environmentPrefix=${{ env.ARTNOTISER_ENVIRONMENTPREFIX }} appNameSuffix=${{ env.ARTNOTISER_APPNAMESUFFIX }}
+          parameters: artportalenKey=${{ secrets.ARTNOTISER_ARTPORTALENKEY }} mailerSendToken=${{ secrets.ARTNOTISER_MAILERSENDTOKEN }} environmentPrefix=${{ env.ARTNOTISER_ENVIRONMENTPREFIX }}
