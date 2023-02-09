@@ -8,6 +8,10 @@ var businessStorageAccountName = 'saartnotiser${appNameSuffix}'
 var keyVaultName = 'kv-artnotiser-${appNameSuffix}'
 var serviceBusName = 'sb-artnotiser-${appNameSuffix}'
 
+var environmentPrefix = 'Dev: '
+var artportalenKey = ''
+var mailerSendToken = ''
+
 resource functionStorageAccount 'Microsoft.Storage/storageAccounts@2021-04-01' = {
   name: functionStorageAccountName
   location: location
@@ -138,8 +142,11 @@ var serviceBusEndpoint = '${serviceBus.id}/AuthorizationRules/RootManageSharedAc
 var businessStorageAccountConnection = 'DefaultEndpointsProtocol=https;AccountName=${businessStorageAccount.name};AccountKey=${listKeys(businessStorageAccount.id, businessStorageAccount.apiVersion).keys[0].value};EndpointSuffix=core.windows.net'
 
 var functionAppCustomSettings = {
-  StorageAccountConnectionString: businessStorageAccountConnection
-  ServiceBusConnectionString: 'Endpoint=sb://${serviceBus.name}.servicebus.windows.net/;SharedAccessKeyName=RootManageSharedAccessKey;SharedAccessKey=${listKeys(serviceBusEndpoint, serviceBus.apiVersion).primaryKey}'
+  ArtNotiserStorageAccount: businessStorageAccountConnection
+  ArtNotiserServiceBus: 'Endpoint=sb://${serviceBus.name}.servicebus.windows.net/;SharedAccessKeyName=RootManageSharedAccessKey;SharedAccessKey=${listKeys(serviceBusEndpoint, serviceBus.apiVersion).primaryKey}'
+  EnvironmentPrefix: environmentPrefix
+  ArtportalenKey: artportalenKey
+  MailerSendToken: mailerSendToken
 }
 
 var functionAppSettings = union(functionAppStandardSettings, functionAppCustomSettings)
