@@ -6,14 +6,11 @@ on:
   pull_request:
     branches: [ "main" ]
   workflow_dispatch:
-    inputs:
-      environmentSpec:
-        type: string
 
 jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
-    environment: ${{ github.event.inputs.environmentSpec }}
+    environment: Prod
 
     steps:
       - uses: actions/checkout@v3
