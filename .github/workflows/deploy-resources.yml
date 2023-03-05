@@ -9,11 +9,18 @@ on:
   pull_request:
     branches: [ "main" ]
   workflow_dispatch:
+  
+  workflow_call:
+    inputs:
+      env:
+        description: 'Environment to use, determine variables used'
+        required: true
+        type: string
 
 jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
-    environment: Dev
+    environment: ${{ inputs.env }}
 
     steps:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
