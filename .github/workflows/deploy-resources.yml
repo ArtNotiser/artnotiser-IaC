@@ -1,30 +1,26 @@
 name: Deploy resource infrastructure
 
-parameters:
-- name: env
-  displayName: 'Environment info'
-  type: string
-
-
 on:
   push:
     branches: [ "main" ]
   pull_request:
     branches: [ "main" ]
   workflow_dispatch:
-  
+    inputs:
+      environmentSpec:
+        type: string
 
 jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
-    environment: ${{ parameters.env }}
+    environment: ${{ github.event.inputs.environmentSpec }}
 
     steps:
       - uses: actions/checkout@v3
 
       - name: Print Inputs
         run: |
-          echo "Release Type: ${{ parameters.env }}"
+          echo "Release Type: ${{ github.event.inputs.environmentSpec }}"
 
       - name: bicep-build-output
         uses: Azure/bicep-build-action@v1.0.1
